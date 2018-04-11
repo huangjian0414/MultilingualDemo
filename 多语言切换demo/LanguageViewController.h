@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface LanguageViewController : UIViewController
-
+@property (nonatomic,copy)NSString *leftTitle;
+@property (nonatomic,copy)NSString *rightTitle;
+-(void)back;
 @end

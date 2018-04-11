@@ -22,10 +22,16 @@
 }
 -(void)changeLanguage
 {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        LanguageViewController *vc=[[LanguageViewController alloc]init];
-        [self.navigationController pushViewController:vc animated:YES];
-    });
+    [[NSUserDefaults standardUserDefaults]objectForKey:@"back"];
+    [[NSUserDefaults standardUserDefaults]objectForKey:@"save"];
+    LanguageViewController *vc=[[LanguageViewController alloc]init];
+    [vc back];
+    vc.leftTitle=[[NSUserDefaults standardUserDefaults]objectForKey:@"back"];
+    vc.rightTitle=[[NSUserDefaults standardUserDefaults]objectForKey:@"save"];
+    vc.title=[[NSUserDefaults standardUserDefaults]objectForKey:@"title"];
+    vc.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:vc animated:NO];
+    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -47,6 +53,8 @@
 {
     
     LanguageViewController *vc=[[LanguageViewController alloc]init];
+    vc.hidesBottomBarWhenPushed=YES;
+    vc.title=languageStr(@"language_mine");
     [self.navigationController pushViewController:vc animated:YES];
 }
 -(void)setTabbleView

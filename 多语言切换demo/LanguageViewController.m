@@ -25,9 +25,39 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor=[UIColor whiteColor];
-    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(confirm)];
+    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:languageStr(@"language_leftitem") style:UIBarButtonItemStylePlain target:self action:@selector(backToPersonal)];
+    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:languageStr(@"language_rightitem") style:UIBarButtonItemStylePlain target:self action:@selector(confirm)];
     [self setDefaultLanguage];
     [self setTableView];
+    
+}
+-(void)setLeftTitle:(NSString *)leftTitle
+{
+    _leftTitle=leftTitle;
+    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:leftTitle style:UIBarButtonItemStylePlain target:self action:@selector(backToPersonal)];
+}
+-(void)setRightTitle:(NSString *)rightTitle
+{
+    _rightTitle=rightTitle;
+    self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:rightTitle style:UIBarButtonItemStylePlain target:self action:@selector(confirm)];
+}
+
+-(void)backToPersonal
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+-(void)back
+{
+    UIActivityIndicatorView *ac=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    ac.center=self.view.center;
+    ac.hidesWhenStopped=YES;
+    ac.color=[UIColor orangeColor];
+    [self.view addSubview:ac];
+    [ac startAnimating];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [ac stopAnimating];
+        [self.navigationController popViewControllerAnimated:YES];
+    });
 }
 -(void)setDefaultLanguage
 {
@@ -43,6 +73,10 @@
 }
 -(void)confirm
 {
+    [[NSUserDefaults standardUserDefaults]setObject:languageStr(@"language_leftitem") forKey:@"back"];
+    [[NSUserDefaults standardUserDefaults]setObject:languageStr(@"language_rightitem") forKey:@"save"];
+    [[NSUserDefaults standardUserDefaults]setObject:languageStr(@"language_mine") forKey:@"title"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
     if (self.indexPath.row==0) {
         [LocalizationManager setUserlanguage:@"zh-Hans"];
     }else if (self.indexPath.row==1)

@@ -13,3 +13,6 @@
 "title_mine"="Personal";
 "bartitle_mine"="Mine";
 "language_mine"="Language";
+
+"language_leftitem"="Back";
+"language_rightitem"="Save";
